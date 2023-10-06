@@ -5,9 +5,8 @@ namespace App\Http\Requests;
 use Illuminate\Foundation\Http\FormRequest;
 use Illuminate\Validation\Rules\Password;
 
-class SignupRequest extends FormRequest
+class UpdateUserRequest extends FormRequest
 {
-
     public function authorize(): bool
     {
         return true;
@@ -16,10 +15,10 @@ class SignupRequest extends FormRequest
     public function rules(): array
     {
         return [
-            "name" => 'required|string',
-            "email" => 'required|email|unique:users,email',
+            "name" => 'sometimes|required|string',
+            "email" => 'sometimes|required|email|unique:users,email,'.$this->id,
             "password" => [
-                'required',
+                'sometimes',
                 'confirmed',
                 Password::min(8)
                     ->letters()
