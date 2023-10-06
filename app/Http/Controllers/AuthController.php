@@ -14,7 +14,7 @@ class AuthController extends Controller
     {
         $credentials = $request->validated();
         /** @var User $user */
-        if(!Auth::attempt($credentials)){
+        if (!Auth::attempt($credentials)) {
             return response([
                 'message' => 'email or Password Incorrect'
             ]);
@@ -22,6 +22,10 @@ class AuthController extends Controller
         $user = Auth::user();
         $token = $user->createToken('access_token')->plainTextToken;
         return response(compact('user','token'));
+//        return response([
+//            'user' => $user,
+//            'token' => $token
+//        ]);
     }
 
     public function signup(SignupRequest $request)
@@ -35,12 +39,8 @@ class AuthController extends Controller
         ]);
         $token = $user->createToken('access_token')->plainTextToken;
 
-//        return response([
-//            'user'=>$user,
-//            'token'=>$token
-//        ]);
 
-        return response(compact('user','token'));
+        return response(compact('user', 'token'));
     }
 
     public function logout(Request $request)
@@ -49,6 +49,6 @@ class AuthController extends Controller
         $user = $request->user();
         $user->currentAccessToken()->delete();
 
-        return response('',204);
+        return response('', 204);
     }
 }
